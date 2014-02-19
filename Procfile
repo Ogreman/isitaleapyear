@@ -1,1 +1,1 @@
-web: gunicorn leap:app
+web: newrelic-admin run-program gunicorn -b "0.0.0.0:$PORT" -w 3 leap:app
