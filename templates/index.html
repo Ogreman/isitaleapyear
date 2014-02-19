@@ -1,0 +1,24 @@
+
+{% extends 'layout.html' %}
+{% block body %}
+<h1 id="leap"></h1>
+
+<script type=text/javascript>
+    $(function() {
+        $.getJSON($SCRIPT_ROOT + '/api', {
+            year: new Date().getFullYear()
+        }, function(data) {
+            if (data.error_message) {
+                console.log(data.error_message);
+            } else {
+                if (data.leap) {
+                    $('#leap')[0].innerHTML="YES!"
+                } else {
+                    $('#leap')[0].innerHTML="NO!"
+                }
+            }
+        });
+        return false;
+    });
+</script>
+{% endblock %}
