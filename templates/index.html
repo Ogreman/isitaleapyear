@@ -11,6 +11,7 @@
 
 
 <script type=text/javascript>
+if (window.jQuery){
     $(function() {
         $.getJSON($SCRIPT_ROOT + '/api', {
             year: new Date().getFullYear()
@@ -27,5 +28,32 @@
         });
         return false;
     });
+} else {
+    request = new XMLHttpRequest;
+    request.open('GET', '/api/?year=' + new Date().getFullYear(), true);
+    leap = document.getElementById("leap");
+
+    request.onload = function() {
+      if (request.status >= 200 && request.status < 400){
+        data = JSON.parse(request.responseText);
+        if (data.error_message) {
+            console.log(data.error_message);
+        } else {
+            if (data.leap) {
+                leap.innerHTML="YES!"
+            } else {
+                leap.innerHTML="NO!"
+            }
+        }
+      } else {
+        console.log("request error");
+      }
+    };
+    request.onerror = function() {
+        console.log("connection error");
+    };
+    request.send();
+}
 </script>
+
 {% endblock %}
